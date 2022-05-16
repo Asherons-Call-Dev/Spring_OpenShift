@@ -18,11 +18,12 @@ WORKDIR /build
 COPY build.gradle .
 #RUN mvn dependency:go-offline
 #RUN gradle --offline
-RUN ./gradlew --offline clean build -test
+#RUN ./gradlew --offline clean build -test
+RUN ~/.gradle
 
 COPY src src
 #RUN mvn package -Dmaven.test.skip=true
-RUN gradle clean build -test
+RUN gradle --offline clean build -test
 
 FROM openjdk:11-jdk
 COPY --from=0 /build/target/demo-0.0.1-SNAPSHOT.jar /app/target/demo-0.0.1-SNAPSHOT.jar
