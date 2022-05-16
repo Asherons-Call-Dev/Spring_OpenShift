@@ -14,11 +14,14 @@ FROM quay.io/devfile/maven:3.8.1-openjdk-17-slim
 WORKDIR /build
 
 # Build dependency offline to streamline build
-COPY pom.xml .
-RUN mvn dependency:go-offline
+#COPY pom.xml .
+COPY build.gradle .
+#RUN mvn dependency:go-offline
+RUN gradle --offline
 
 COPY src src
-RUN mvn package -Dmaven.test.skip=true
+#RUN mvn package -Dmaven.test.skip=true
+RUN gradle clean build -test
 
 FROM openjdk:11-jdk
 COPY --from=0 /build/target/demo-0.0.1-SNAPSHOT.jar /app/target/demo-0.0.1-SNAPSHOT.jar
