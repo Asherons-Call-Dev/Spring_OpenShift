@@ -17,7 +17,8 @@ WORKDIR /build
 #COPY pom.xml .
 COPY build.gradle .
 #RUN mvn dependency:go-offline
-RUN gradle --offline
+#RUN gradle --offline
+RUN ./gradlew --offline clean build -test
 
 COPY src src
 #RUN mvn package -Dmaven.test.skip=true
